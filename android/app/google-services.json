@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "651967766470",
+    "project_id": "whatnotes-1",
+    "storage_bucket": "whatnotes-1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651967766470:android:c4c5c49b82c2df08505cc7",
+        "android_client_info": {
+          "package_name": "com.exp.whatnotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg5RvQkszPnuloI4tgJY4reGdH9qhDNKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
