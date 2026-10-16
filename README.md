@@ -22,7 +22,7 @@ flutter run -d <android-device-id>
 
 ## Download APK
 
-https://github.com/notm4nan/whatnotes/blob/main/build/app/outputs/flutter-apk/whatnotes.apk
+[whatnote.apk](https://github.com/notm4nan/whatnotes/blob/main/build/app/outputs/flutter-apk/whatnotes.apk)
 
 
 ## Firebase setup
