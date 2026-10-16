@@ -7,7 +7,7 @@ import 'storage_service.dart';
 /// every write includes ownerId; Firestore rules enforce the same boundary.
 class FirestoreStorageService implements StorageService {
   FirestoreStorageService({required this.ownerId, FirebaseFirestore? firestore})
-      : _firestore = firestore ?? FirebaseFirestore.instance;
+    : _firestore = firestore ?? FirebaseFirestore.instance;
 
   final String ownerId;
   final FirebaseFirestore _firestore;
@@ -26,9 +26,19 @@ class FirestoreStorageService implements StorageService {
 
   @override
   Future<void> saveItems(List<InboxItem> items) async {
+    final ownedSnapshot = await _ownedItems.get();
+    final ownedDocumentIds = <String, String>{};
+    for (final doc in ownedSnapshot.docs) {
+      final itemId = doc.data()['id'];
+      if (itemId is String) {
+        ownedDocumentIds[itemId] = doc.id;
+      }
+    }
+
     final batch = _firestore.batch();
     for (final item in items) {
-      final ref = _items.doc(item.id);
+      final documentId = ownedDocumentIds[item.id] ?? '${ownerId}__${item.id}';
+      final ref = _items.doc(documentId);
       batch.set(ref, {...item.toJson(), 'ownerId': ownerId});
     }
     await batch.commit();
@@ -47,14 +57,24 @@ class FirestoreStorageService implements StorageService {
   }
 
   Future<InboxItem?> getById(String id) async {
-    final doc = await _items.doc(id).get();
-    if (!doc.exists || doc.data()?['ownerId'] != ownerId) return null;
-    return InboxItem.fromJson(doc.data()!);
+    final snapshot = await _ownedItems
+        .where('id', isEqualTo: id)
+        .limit(1)
+        .get();
+    if (snapshot.docs.isEmpty) return null;
+    return InboxItem.fromJson(snapshot.docs.first.data());
   }
 
   @override
   Future<void> deleteItem(String id) async {
-    await _items.doc(id).delete();
+    final snapshot = await _ownedItems.where('id', isEqualTo: id).get();
+    if (snapshot.docs.isEmpty) return;
+
+    final batch = _firestore.batch();
+    for (final doc in snapshot.docs) {
+      batch.delete(doc.reference);
+    }
+    await batch.commit();
   }
 
   @override

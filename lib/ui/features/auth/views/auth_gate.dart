@@ -20,16 +20,40 @@ class AuthGate extends StatelessWidget {
       builder: (context, snapshot) {
         final user = snapshot.data;
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
         }
         if (user == null) return AuthScreen(authService: authService);
 
-        final repository = InboxRepository(
-          storageService: FirestoreStorageService(ownerId: user.uid),
-        );
-        return ChangeNotifierProvider(
-          create: (_) => InboxViewModel(repository: repository)..init(),
-          child: InboxScreen(authService: authService),
+        return FutureBuilder<String?>(
+          future: user.getIdToken(true),
+          builder: (context, tokenSnapshot) {
+            if (tokenSnapshot.connectionState != ConnectionState.done) {
+              return const Scaffold(
+                body: Center(child: CircularProgressIndicator()),
+              );
+            }
+            if (tokenSnapshot.hasError) {
+              return Scaffold(
+                body: Center(
+                  child: Text(
+                    'Could not authenticate this account. Please sign out and try again.',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+              );
+            }
+
+            final repository = InboxRepository(
+              storageService: FirestoreStorageService(ownerId: user.uid),
+            );
+            return ChangeNotifierProvider(
+              create: (_) => InboxViewModel(repository: repository)..init(),
+              child: InboxScreen(authService: authService),
+            );
+          },
         );
       },
     );

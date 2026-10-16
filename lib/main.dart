@@ -41,11 +41,15 @@ class ByteInboxApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeController>(
       builder: (context, theme, _) => MaterialApp(
-      title: 'WhatNotes',
-      debugShowCheckedModeBanner: false,
-        theme: theme.mode == AppThemeMode.retro ? AppTheme.retroTheme : AppTheme.lightTheme,
+        title: 'WhatNotes',
+        debugShowCheckedModeBanner: false,
+        theme: theme.mode == AppThemeMode.retro
+            ? AppTheme.retroTheme
+            : AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
-        themeMode: theme.mode == AppThemeMode.dark ? ThemeMode.dark : ThemeMode.light,
+        themeMode: theme.mode == AppThemeMode.dark
+            ? ThemeMode.dark
+            : ThemeMode.light,
         home: firebaseConfigured
             ? AuthGate(authService: AuthService())
             : const FirebaseSetupRequiredScreen(),
@@ -59,11 +63,13 @@ class FirebaseSetupRequiredScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const Scaffold(
-        body: Center(
-          child: Padding(
-            padding: EdgeInsets.all(24),
-            child: Text('Firebase is not configured. Add android/app/google-services.json and rebuild the app.'),
-          ),
+    body: Center(
+      child: Padding(
+        padding: EdgeInsets.all(24),
+        child: Text(
+          'Firebase is not configured. Add android/app/google-services.json and rebuild the app.',
         ),
-      );
+      ),
+    ),
+  );
 }

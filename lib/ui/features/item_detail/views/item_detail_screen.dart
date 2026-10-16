@@ -56,9 +56,13 @@ class ItemDetailScreen extends StatelessWidget {
   }
 
   void _navigateToEdit(BuildContext context, InboxItem item) {
+    final viewModel = context.read<InboxViewModel>();
     Navigator.of(context).push(
       MaterialPageRoute<bool>(
-        builder: (_) => CreateEditScreen(itemToEdit: item),
+        builder: (_) => ChangeNotifierProvider.value(
+          value: viewModel,
+          child: CreateEditScreen(itemToEdit: item),
+        ),
       ),
     );
   }

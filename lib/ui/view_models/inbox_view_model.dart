@@ -225,4 +225,5 @@ class InboxViewModel extends ChangeNotifier {
     }
     return null;
   }
+
 }
