@@ -12,31 +12,11 @@ WhatNotes is an Android-first Flutter inbox for saving notes, links, and images.
 - Android Studio or an Android device/emulator
 - A Firebase project with Email/Password Authentication and Cloud Firestore enabled
 
-## Run locally
-
-```bash
-flutter pub get
-flutter devices
-flutter run -d <android-device-id>
-```
 
 ## Download APK
 
 [whatnote.apk](https://github.com/notm4nan/whatnotes/blob/main/build/app/outputs/flutter-apk/whatnotes.apk)
 
-
-## Firebase setup
-
-Android Firebase configuration is stored in `android/app/google-services.json`. It contains project identifiers and a client API key, not server credentials. The Firebase project must have:
-
-1. Authentication > Sign-in method > Email/Password enabled.
-2. A Cloud Firestore database created.
-
-Firestore rules require every item to have an authenticated owner ID. Users can only read, create, update, archive, restore, or delete their own items.
-
-Do not commit service-account JSON files, private keys, keystores, passwords, or local SDK paths. The repository ignores local Android configuration and generated build output.
-
-The tests cover model serialization, repository CRUD and filtering, persistence, view-model state, and core widget flows.
 
 ## Project structure
 
