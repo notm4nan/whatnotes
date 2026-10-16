@@ -30,7 +30,7 @@ flutter run -d <android-device-id>
 ```
 
 
-## Build an AP
+## Build an APK
 
 Debug APK:
 
