@@ -20,19 +20,10 @@ flutter devices
 flutter run -d <android-device-id>
 ```
 
-## Build an APK
+## Download APK
 
-Debug APK:
+https://github.com/notm4nan/whatnotes/blob/main/build/app/outputs/flutter-apk/whatnotes.apk
 
-```bash
-flutter build apk --debug
-```
-
-Testable release APK:
-
-```bash
-flutter build apk --release
-```
 
 ## Firebase setup
 
@@ -40,13 +31,6 @@ Android Firebase configuration is stored in `android/app/google-services.json`. 
 
 1. Authentication > Sign-in method > Email/Password enabled.
 2. A Cloud Firestore database created.
-3. The rules in `firestore.rules` deployed:
-
-```bash
-firebase login
-firebase use whatnotes-1
-firebase deploy --only firestore:rules
-```
 
 Firestore rules require every item to have an authenticated owner ID. Users can only read, create, update, archive, restore, or delete their own items.
 
