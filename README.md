@@ -75,3 +75,10 @@ test/                    Unit, repository, view-model, and widget tests
 firestore.rules          Server-side Firestore ownership rules
 firebase.json            Firebase CLI configuration
 ```
+
+some files are not shown here as mentioned in gitignore 
+- android/local.properties with computer’s SDK path
+- signing keys and release credentials
+- .env files
+- .dart_tool and huge temporary files
+- the entire generated build/ directory
