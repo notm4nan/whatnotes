@@ -1,3 +1,5 @@
+<img width="256" height="256" alt="appicon" src="https://github.com/user-attachments/assets/883a6c6e-8990-4db5-9a3d-0d9bb4d5e737" />
+
 # WhatNotes
 
 WhatNotes is an Android-first Flutter inbox for saving notes, links, and images. It supports email/username authentication, private cloud storage with Firebase, search, tags, archive/restore, delete, and light, dark, and retro themes.
