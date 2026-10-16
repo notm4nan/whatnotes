@@ -10,7 +10,6 @@ import '../../create_edit/views/create_edit_screen.dart';
 import '../../item_detail/views/item_detail_screen.dart';
 import '../widgets/empty_inbox_view.dart';
 import '../widgets/item_card.dart';
-import '../widgets/tag_chip_list.dart';
 
 /// Main Inbox screen displaying saved items, search bar,
 /// type and tag filters, sort options, and creation actions.
@@ -202,7 +201,7 @@ class _InboxScreenState extends State<InboxScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
-                Icons.all_inbox_rounded,
+                Icons.note_alt_rounded,
                 color: Colors.white,
                 size: 20,
               ),
@@ -210,7 +209,7 @@ class _InboxScreenState extends State<InboxScreen> {
             const SizedBox(width: 10),
             Flexible(
               child: Text(
-                viewModel.isArchivedView ? 'Archived Items' : 'Personal Inbox',
+                viewModel.isArchivedView ? 'Archived Items' : 'WhatNotes',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontWeight: FontWeight.bold),
@@ -297,11 +296,11 @@ class _InboxScreenState extends State<InboxScreen> {
       body: viewModel.isLoading
           ? const Center(child: CircularProgressIndicator())
           : viewModel.errorMessage != null
-              ? _ErrorRetryView(
-                  message: viewModel.errorMessage!,
-                  onRetry: viewModel.init,
-                )
-              : Column(
+          ? _ErrorRetryView(
+              message: viewModel.errorMessage!,
+              onRetry: viewModel.init,
+            )
+          : Column(
               children: [
                 // Top Search Bar
                 Padding(
@@ -357,11 +356,47 @@ class _InboxScreenState extends State<InboxScreen> {
                 ),
                 const SizedBox(height: 6),
 
-                // Tag Filter Chips
-                TagChipList(
-                  tags: viewModel.allTags,
-                  selectedTag: viewModel.selectedTag,
-                  onTagSelected: (tag) => viewModel.setSelectedTag(tag),
+                // Compact tag dropdown keeps the filter row clean on small screens.
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      height: 40,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: colorScheme.outlineVariant),
+                        borderRadius: BorderRadius.circular(10),
+                        color: colorScheme.surfaceContainerHighest.withValues(
+                          alpha: 0.35,
+                        ),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: viewModel.selectedTag ?? '',
+                          icon: const Icon(Icons.expand_more_rounded),
+                          hint: const Text('All Tags'),
+                          isDense: true,
+                          borderRadius: BorderRadius.circular(12),
+                          items: [
+                            const DropdownMenuItem<String>(
+                              value: '',
+                              child: Text('All Tags'),
+                            ),
+                            ...viewModel.allTags.map(
+                              (tag) => DropdownMenuItem<String>(
+                                value: tag,
+                                child: Text('#$tag'),
+                              ),
+                            ),
+                          ],
+                          onChanged: (tag) => viewModel.setSelectedTag(
+                            tag == null || tag.isEmpty ? null : tag,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 6),
 
@@ -469,22 +504,22 @@ class _ErrorRetryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.cloud_off_rounded, size: 48),
-              const SizedBox(height: 12),
-              Text(message, textAlign: TextAlign.center),
-              const SizedBox(height: 16),
-              FilledButton.icon(
-                onPressed: onRetry,
-                icon: const Icon(Icons.refresh_rounded),
-                label: const Text('Retry'),
-              ),
-            ],
+    child: Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.cloud_off_rounded, size: 48),
+          const SizedBox(height: 12),
+          Text(message, textAlign: TextAlign.center),
+          const SizedBox(height: 16),
+          FilledButton.icon(
+            onPressed: onRetry,
+            icon: const Icon(Icons.refresh_rounded),
+            label: const Text('Retry'),
           ),
-        ),
-      );
+        ],
+      ),
+    ),
+  );
 }

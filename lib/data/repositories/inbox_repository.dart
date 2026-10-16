@@ -25,12 +25,18 @@ class InboxRepository {
       _items.addAll(sampleItems);
       await storageService.saveItems(_items);
     } else {
-      final migrated = loaded.map((item) {
-        if (item.id == 'seed-welcome-note') {
-          return item.copyWith(id: 'dashnote-new');
-        }
-        return item;
-      }).toList();
+      final migrated = loaded
+          .where((item) => item.id != 'seed-sample-image')
+          .map((item) {
+            if (item.id == 'seed-welcome-note') {
+              return item.copyWith(id: 'dashnote-new');
+            }
+            return item;
+          })
+          .toList();
+      if (loaded.any((item) => item.id == 'seed-sample-image')) {
+        await storageService.deleteItem('seed-sample-image');
+      }
       if (migrated.any((item) => item.id == 'dashnote-new') &&
           loaded.any((item) => item.id == 'seed-welcome-note')) {
         await storageService.deleteItem('seed-welcome-note');
@@ -208,16 +214,6 @@ class InboxRepository {
         tags: const ['flutter', 'docs', 'reference'],
         createdAt: now.subtract(const Duration(minutes: 5)),
         updatedAt: now.subtract(const Duration(minutes: 5)),
-        isArchived: false,
-      ),
-      InboxItem(
-        id: 'seed-sample-image',
-        type: InboxItemType.image,
-        title: 'Minimalist Architecture Concept',
-        content: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&auto=format&fit=crop&q=80',
-        tags: const ['design', 'inspiration'],
-        createdAt: now.subtract(const Duration(minutes: 10)),
-        updatedAt: now.subtract(const Duration(minutes: 10)),
         isArchived: false,
       ),
     ];

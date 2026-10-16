@@ -47,5 +47,16 @@ app.*.map.json
 # Machine-specific Android/Flutter SDK locations
 /android/local.properties
 
+# Firebase CLI and local release signing credentials
+.firebase/
+firebase-debug.log*
+/android/key.properties
+/android/app/*.jks
+/android/app/*.keystore
+/android/app/*.p12
+/android/app/*.pem
+.env
+.env.*
+
 # Widget Preview related
 .widget_preview/

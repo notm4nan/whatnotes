@@ -45,15 +45,18 @@ void main() {
       expect(repository.isInitialized, isTrue);
     });
 
-    test('seeds initial starter items when storage is empty and seedIfEmpty is true', () async {
-      final freshStorage = InMemoryStorageService();
-      final seededRepo = InboxRepository(storageService: freshStorage);
-      await seededRepo.init(seedIfEmpty: true);
+    test(
+      'seeds the welcome note and starter link when storage is empty',
+      () async {
+        final freshStorage = InMemoryStorageService();
+        final seededRepo = InboxRepository(storageService: freshStorage);
+        await seededRepo.init(seedIfEmpty: true);
 
-      expect(seededRepo.items, isNotEmpty);
-      expect(seededRepo.items.length, equals(3));
-      expect(freshStorage.saved.length, equals(3));
-    });
+        expect(seededRepo.items, isNotEmpty);
+        expect(seededRepo.items.length, equals(2));
+        expect(freshStorage.saved.length, equals(2));
+      },
+    );
 
     test('adds note, link, and image items and persists them', () async {
       final note = InboxItem.create(

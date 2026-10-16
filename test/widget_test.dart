@@ -42,7 +42,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify AppBar title
-    expect(find.text('Personal Inbox'), findsOneWidget);
+    expect(find.text('WhatNotes'), findsOneWidget);
 
     // Verify Search hint exists
     expect(
