@@ -4,8 +4,7 @@ WhatNotes is an Android-first Flutter inbox for saving notes, links, and images.
 
 ## Supported platform
 
-- Android phones, tablets, and emulators
-- iOS, Windows, macOS, Linux, and web are not included in this repository
+- Android devices
 
 ## Requirements
 
@@ -21,13 +20,6 @@ flutter devices
 flutter run -d <android-device-id>
 ```
 
-For the standard emulator created for this project:
-
-```bash
-flutter emulators --launch ByteTask_API_34
-flutter run -d emulator-5554
-```
-
 ## Build an APK
 
 Debug APK:
@@ -41,8 +33,6 @@ Testable release APK:
 ```bash
 flutter build apk --release
 ```
-
-The APK is written to `build/app/outputs/flutter-apk/`. A release APK can be installed manually on Android devices. Before publishing to Google Play, configure a private release keystore; never commit that keystore or its passwords.
 
 ## Firebase setup
 
@@ -61,13 +51,6 @@ firebase deploy --only firestore:rules
 Firestore rules require every item to have an authenticated owner ID. Users can only read, create, update, archive, restore, or delete their own items.
 
 Do not commit service-account JSON files, private keys, keystores, passwords, or local SDK paths. The repository ignores local Android configuration and generated build output.
-
-## Tests and analysis
-
-```bash
-flutter test
-flutter analyze
-```
 
 The tests cover model serialization, repository CRUD and filtering, persistence, view-model state, and core widget flows.
 
